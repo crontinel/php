@@ -1,0 +1,48 @@
+{
+    "name": "crontinel/php",
+    "description": "Framework-agnostic PHP core for Crontinel — data objects, monitor contracts, and alert management.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["crontinel", "monitoring", "cron", "queue", "horizon", "php"],
+    "authors": [
+        {
+            "name": "Harun R Rayhan",
+            "email": "me@harunray.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2|^8.3|^8.4",
+        "psr/log": "^3.0",
+        "psr/simple-cache": "^3.0",
+        "dragonmantank/cron-expression": "^3.3"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "pestphp/pest": "^3.0",
+        "symfony/cache": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crontinel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Crontinel\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "pestphp/pest": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "lint": "vendor/bin/pint",
+        "lint:check": "vendor/bin/pint --test"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
