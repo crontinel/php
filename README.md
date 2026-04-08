@@ -37,6 +37,16 @@ This package provides:
 
 ---
 
+## Ecosystem
+
+| Repo | Description |
+|---|---|
+| [crontinel/php](https://github.com/crontinel/php) (this repo) | Framework-agnostic PHP core |
+| [crontinel/laravel](https://github.com/crontinel/crontinel) | Laravel package that depends on this library |
+| [docs.crontinel.com](https://docs.crontinel.com) | Full documentation |
+
+---
+
 ## License
 
 MIT — free forever. See [LICENSE](LICENSE).
