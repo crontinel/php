@@ -19,6 +19,13 @@ Install `crontinel/php` directly when you are:
 ## Requirements
 
 - PHP 8.2, 8.3, or 8.4
+- Composer
+
+## Compatibility
+
+- **Laravel 10, 11, and 12** — install [`crontinel/laravel`](https://github.com/crontinel/crontinel) instead, which wraps this package and adds Laravel-specific integration.
+- **Horizon** — this package reads the same Redis keys that Horizon uses. When you install `crontinel/laravel`, the `HorizonMonitor` works out of the box with no additional configuration.
+- **Other frameworks** — Symfony, Slim, and any PHP 8.2+ application can use the contracts and data objects directly.
 
 ---
 
@@ -142,6 +149,51 @@ if (! $monitor->isHealthy()) {
     $alertManager->fire('disk.data', 'Low disk space', 'Disk /data is below 10% free', 'critical');
 } else {
     $alertManager->resolve('disk.data');
+}
+```
+
+### Using CronExpressionHelper
+
+```php
+use Crontinel\Cron\CronExpressionHelper;
+
+$helper = new CronExpressionHelper();
+
+// When is the next run of "every minute"?
+$next = $helper->nextDue('* * * * *');
+echo $next->format('Y-m-d H:i:s');
+
+// Is a job that's been silent for 10 minutes late for a 5-minute schedule?
+$lastRun = new \DateTimeImmutable('2026-04-11 10:50:00');
+$isLate = $helper->isLate($lastRun, '*/5 * * * *', graceSeconds: 60);
+// Returns true if current time exceeds $lastRun + 5min + 60s grace
+```
+
+### Using built-in monitors with AlertManager
+
+```php
+use Crontinel\Alert\AlertManager;
+use Crontinel\Monitors\QueueMonitor;
+
+$alertManager = new AlertManager(
+    cache: $cache,
+    channel: new WebhookChannel('https://example.com/alerts'),
+);
+
+$queueMonitor = new QueueMonitor(
+    redisConnection: 'default',
+    maxDepth: 100,
+    maxFailed: 10,
+);
+
+if (! $queueMonitor->isHealthy()) {
+    $status = $queueMonitor->getStatus(); // returns QueueStatus object
+    $alertManager->fire(
+        'queue.depth',
+        'Queue depth exceeded',
+        "Queue has {$status->depth} jobs (max: 100)",
+        'warning',
+    );
 }
 ```
 
