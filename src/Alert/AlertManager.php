@@ -6,6 +6,7 @@ namespace Crontinel\Alert;
 
 use Crontinel\Contracts\AlertChannelInterface;
 use Crontinel\Data\AlertEvent;
+use Crontinel\Data\AlertLevel;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
@@ -21,23 +22,35 @@ class AlertManager
         private readonly int $dedupTtl = self::DEFAULT_DEDUP_TTL,
     ) {}
 
-    public function fire(string $key, string $title, string $message, string $level): void
+    public function fire(string $key, string $title, string $message, AlertLevel|string $level): void
     {
+        $levelValue = $level instanceof AlertLevel ? $level->value : $level;
         $cacheKey = $this->cacheKey($key);
 
-        if ($this->cache->has($cacheKey)) {
-            return;
+        // Use cache->get to check and set atomically via set with TTL
+        // If already set, another process set it first — dedup achieved
+        $existing = $this->cache->get($cacheKey);
+
+        if ($existing !== null) {
+            return; // dedup: already firing
         }
 
-        $entry = ['title' => $title, 'fired_at' => (new \DateTimeImmutable)->format(\DateTimeInterface::ISO8601)];
+        $entry = ['title' => $title, 'fired_at' => (new \DateTimeImmutable)->format(\DateTimeInterface::ATOM)];
 
-        $this->cache->set($cacheKey, $entry, $this->dedupTtl);
+        // Race: two processes may both see null and try to set
+        // The one that successfully sets first wins; use the return value to confirm
+        $set = $this->cache->set($cacheKey, $entry, $this->dedupTtl);
+
+        if (! $set) {
+            // Another process beat us to it
+            return;
+        }
 
         $event = new AlertEvent(
             key: $key,
             title: $title,
             message: $message,
-            level: $level,
+            level: $levelValue,
             resolved: false,
             firedAt: new \DateTimeImmutable,
         );
@@ -53,18 +66,28 @@ class AlertManager
     {
         $cacheKey = $this->cacheKey($key);
 
-        if (! $this->cache->has($cacheKey)) {
-            return;
+        // get() returns null if key doesn't exist or is expired
+        $original = $this->cache->get($cacheKey);
+
+        if ($original === null) {
+            return; // no alert to resolve
         }
 
-        $original = $this->cache->get($cacheKey);
         $this->cache->delete($cacheKey);
+
+        if (! is_array($original)) {
+            $title = $key;
+            $firedAt = 'unknown';
+        } else {
+            $title = $original['title'] ?? $key;
+            $firedAt = $original['fired_at'] ?? 'unknown';
+        }
 
         $event = new AlertEvent(
             key: $key,
-            title: $original['title'] ?? $key,
-            message: "Issue resolved. Originally fired at {$original['fired_at']}.",
-            level: 'resolved',
+            title: $title,
+            message: "Issue resolved. Originally fired at {$firedAt}.",
+            level: AlertLevel::RESOLVED->value,
             resolved: true,
             firedAt: new \DateTimeImmutable,
         );
