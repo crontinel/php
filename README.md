@@ -216,3 +216,4 @@ if (! $queueMonitor->isHealthy()) {
 MIT. See [LICENSE](LICENSE).
 
 Built by [Harun R Rayhan](https://github.com/HarunRRayhan) · [crontinel.com](https://crontinel.com)
+
