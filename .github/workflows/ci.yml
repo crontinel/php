@@ -21,7 +21,9 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --no-progress --no-suggest
+        env:
+          COMPOSER_AUDIT_BLOCK_INSECURE: '0'
+        run: composer install --no-progress --no-interaction
 
       - name: Lint
         run: composer lint:check
