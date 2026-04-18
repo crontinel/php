@@ -43,6 +43,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "pestphp/pest": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "scripts": {
