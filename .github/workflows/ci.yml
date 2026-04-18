@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         env:
-          COMPOSER_AUDIT_BLOCK_INSECURE: '0'
+          COMPOSER_AUDIT_BLOCK_INSECURE: 'false'
         run: composer install --no-progress --no-interaction
 
       - name: Lint
