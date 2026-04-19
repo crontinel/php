@@ -6,7 +6,6 @@ namespace Crontinel\Alert;
 
 use Crontinel\Contracts\AlertChannelInterface;
 use Crontinel\Data\AlertEvent;
-use Crontinel\Alert\AlertLevel;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
