@@ -1,9 +1,9 @@
 {
     "name": "crontinel/php",
-    "description": "Framework-agnostic PHP core for Crontinel — data objects, monitor contracts, and alert management.",
+    "description": "Laravel-native cron, queue & Horizon monitoring. Detects silent Horizon supervisor death, queue bottlenecks, and cron failures — things generic uptime monitors can't see.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["crontinel", "monitoring", "cron", "queue", "horizon", "php"],
+    "keywords": ["crontinel", "monitoring", "cron", "queue", "horizon", "php", "supervisor", "mcp", "laravel-native"],
     "homepage": "https://crontinel.com",
     "authors": [
         {
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Crontinel\\": "src/"
+            "Crontinel\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Crontinel\\Tests\\": "tests/"
+            "Crontinel\Tests\": "tests/"
         }
     },
     "config": {
