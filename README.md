@@ -4,7 +4,27 @@
 [![PHP](https://img.shields.io/badge/PHP-8.2%20%7C%208.3%20%7C%208.4-blue)](https://packagist.org/packages/crontinel/php)
 [![License](https://img.shields.io/github/license/crontinel/php.svg)](LICENSE)
 
-Framework-agnostic PHP core for [Crontinel](https://crontinel.com). Provides monitor contracts, typed data objects, alert management with deduplication, and cron expression helpers.
+Report cron and background job runs to [Crontinel Cloud](https://app.crontinel.com).
+
+Framework-agnostic PHP core for Crontinel. Provides monitor contracts, typed data objects, alert management with deduplication, and cron expression helpers.
+
+## Quickstart
+
+```bash
+composer require crontinel/php
+```
+
+```php
+$client = new \Crontinel\Client('your_api_key');
+$client->baseUrl('https://app.crontinel.com/api/v1');
+
+// Report a cron run
+$client->reportCronRun('php artisan schedule:run', 1500, 0);
+```
+
+Get your API key at [app.crontinel.com](https://app.crontinel.com).
+
+## Requirements
 
 **If you use Laravel, install [`crontinel/laravel`](https://github.com/crontinel/crontinel) instead.** It pulls in this package automatically and adds service providers, dashboard, Artisan commands, and event listeners.
 
