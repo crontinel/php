@@ -26,7 +26,7 @@ Get your API key at [app.crontinel.com](https://app.crontinel.com).
 
 ## Requirements
 
-**If you use Laravel, install [`crontinel/laravel`](https://github.com/crontinel/crontinel) instead.** It pulls in this package automatically and adds service providers, dashboard, Artisan commands, and event listeners.
+**If you use Laravel, install [`crontinel/laravel`](https://github.com/crontinel/laravel) instead.** It pulls in this package automatically and adds service providers, dashboard, Artisan commands, and event listeners.
 
 Install `crontinel/php` directly when you are:
 
@@ -43,7 +43,7 @@ Install `crontinel/php` directly when you are:
 
 ## Compatibility
 
-- **Laravel 10, 11, and 12** — install [`crontinel/laravel`](https://github.com/crontinel/crontinel) instead, which wraps this package and adds Laravel-specific integration.
+- **Laravel 10, 11, and 12** — install [`crontinel/laravel`](https://github.com/crontinel/laravel) instead, which wraps this package and adds Laravel-specific integration.
 - **Horizon** — this package reads the same Redis keys that Horizon uses. When you install `crontinel/laravel`, the `HorizonMonitor` works out of the box with no additional configuration.
 - **Other frameworks** — Symfony, Slim, and any PHP 8.2+ application can use the contracts and data objects directly.
 
@@ -224,7 +224,7 @@ if (! $queueMonitor->isHealthy()) {
 | Package | Description |
 |---|---|
 | [crontinel/php](https://github.com/crontinel/php) (this repo) | Framework-agnostic PHP core |
-| [crontinel/laravel](https://github.com/crontinel/crontinel) | Laravel package with dashboard, Artisan commands, and event listeners |
+| [crontinel/laravel](https://github.com/crontinel/laravel) | Laravel package with dashboard, Artisan commands, and event listeners |
 | [crontinel/mcp-server](https://github.com/crontinel/mcp-server) | MCP server for AI assistants (Claude, Cursor) |
 | [docs.crontinel.com](https://docs.crontinel.com) | Full documentation |
 | [app.crontinel.com](https://app.crontinel.com) | Hosted SaaS dashboard |
