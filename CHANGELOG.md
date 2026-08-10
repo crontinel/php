@@ -24,4 +24,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Requires `dragonmantank/cron-expression` ^3.3
 - Requires PSR-16 cache and PSR-3 logger implementations for `AlertManager`
 - Compatible with Laravel, Symfony, Slim, and framework-agnostic setups
-- Laravel integration is provided by the separate [`crontinel/laravel`](https://github.com/crontinel/crontinel) package
+- Laravel integration is provided by the separate [`crontinel/laravel`](https://github.com/crontinel/laravel) package
